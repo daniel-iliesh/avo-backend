@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.forms.models import model_to_dict
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from .models import Cart, CartItem, Collection, Customer, Order, OrderItem, Product
@@ -44,7 +45,7 @@ def product_list(request):
 def product_detail(request, id):
     product = get_object_or_404(Product, id=id)
     if request.method == 'GET':
-        return JsonResponse({'id': product.id, 'name': product.name})
+        return JsonResponse(model_to_dict(product))
     elif request.method == 'PUT':
         data = json.loads(request.body)
         Product.objects.filter(id=id).update(**data)
