@@ -21,7 +21,7 @@ def collection_list(request):
 def collection_detail(request, id):
     collection = get_object_or_404(Collection, id=id)
     if request.method == 'GET':
-        return JsonResponse({'id': collection.id, 'name': collection.name})
+        return JsonResponse(model_to_dict(collection))
     elif request.method == 'PUT':
         data = json.loads(request.body)
         Collection.objects.filter(id=id).update(**data)
